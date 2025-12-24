@@ -222,6 +222,7 @@ export const STRATEGY_ABI = [
 
 // Chain IDs
 export const CHAIN_IDS = {
+  mainnet: 1,
   base: 8453,
   baseSepolia: 84532,
   foundry: 31337,
@@ -230,6 +231,9 @@ export const CHAIN_IDS = {
 // Contract addresses per chain
 // Set via environment variables for each deployment
 export const CONTRACT_ADDRESSES_BY_CHAIN: Record<number, { strategyFactory: `0x${string}` }> = {
+  [CHAIN_IDS.mainnet]: {
+    strategyFactory: (process.env.NEXT_PUBLIC_STRATEGY_FACTORY_ADDRESS_MAINNET || "0x0000000000000000000000000000000000000000") as `0x${string}`,
+  },
   [CHAIN_IDS.base]: {
     strategyFactory: (process.env.NEXT_PUBLIC_STRATEGY_FACTORY_ADDRESS_BASE || "0x0000000000000000000000000000000000000000") as `0x${string}`,
   },

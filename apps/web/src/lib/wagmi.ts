@@ -1,15 +1,17 @@
 'use client';
 
 import { http, createConfig } from 'wagmi';
-import { base, baseSepolia, foundry } from 'wagmi/chains';
+import { mainnet, base, baseSepolia, foundry } from 'wagmi/chains';
 import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors';
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'demo';
 const isProd = process.env.NEXT_PUBLIC_ENV === 'production';
 
-// In production, only show Base mainnet
+// In production, only show mainnets (Ethereum + Base)
 // In development, show all networks
-const chains = isProd ? [base] as const : [base, baseSepolia, foundry] as const;
+const chains = isProd
+  ? [mainnet, base] as const
+  : [mainnet, base, baseSepolia, foundry] as const;
 
 export const config = createConfig({
   chains,
@@ -19,6 +21,7 @@ export const config = createConfig({
     walletConnect({ projectId }),
   ],
   transports: {
+    [mainnet.id]: http(),
     [base.id]: http(),
     [baseSepolia.id]: http(),
     [foundry.id]: http('http://127.0.0.1:8545'),
